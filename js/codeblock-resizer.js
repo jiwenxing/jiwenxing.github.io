@@ -25,8 +25,8 @@
             $('.article-share-link').hide(); //
             //$(".img-box").css({"width":"auto", "height":"auto"});
         }else{
-            $(".description").css({"font-size":"25px"}); //subtitle
-            $("#logo").css({"font-size":"65px"}); //title
+            $(".description").css({"font-size":"20px"}); //subtitle
+            $("#logo").css({"font-size":"62px"}); //title
             $(".disqus-comment-count").show();
             $("#header").show(); 
         }
