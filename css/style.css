@@ -53,7 +53,7 @@ a:focus {
       height: 0;
       overflow: hidden; }
     #header .site-name #logo {
-      font: bold 58px/1.12 "YouYuan", Georgia, Times, sans-serif;
+      font: bold 58px/1.12 "YouYuan", STKaiti, Georgia, Times, sans-serif;
       color: #555; }
       #header .site-name #logo span, #header .site-name #logo:hover {
         color: #777; }
@@ -105,6 +105,10 @@ a:focus {
       border-bottom: 0px solid #ddd;
       display: block;
       font-weight: normal; }
+    #sidebar .widget .ds-recent-comments {
+      margin-top: 10px; }
+      #sidebar .widget .ds-recent-comments li {
+        list-style-type: none; }
     #sidebar .widget .tagcloud {
       margin-top: 10px; }
       #sidebar .widget .tagcloud a {
