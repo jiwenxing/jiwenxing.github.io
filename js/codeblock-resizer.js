@@ -25,10 +25,10 @@
             $('.article-share-link').hide(); //
             //$(".img-box").css({"width":"auto", "height":"auto"});
         }else{
-            $(".description").css({"font-size":"18px"}); //subtitle
+            $(".description").css({"font-size":"25px"}); //subtitle
             $("#logo").css({"font-size":"65px"}); //title
             $(".disqus-comment-count").show();
-            // $("#header").show(); 
+            $("#header").show(); 
         }
     }
 
