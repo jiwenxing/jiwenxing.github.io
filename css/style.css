@@ -40,7 +40,7 @@ a:focus {
   clear: both; }
 
 #header {
-  display: none;
+  /*display: none;*/
   padding: 58px 0 0;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -333,7 +333,7 @@ a:focus {
   .post-archive .date {
     padding-right: .7em; }
   .post-archive a {
-    color: #14927B; }
+    color: #86888a; }
 
 /* for archive page ends*/
 /* middle*/
