@@ -97,6 +97,10 @@ a:focus {
       border-bottom: 1px solid #ddd;
       display: block;
       font-weight: normal; }
+    #sidebar .widget .category-list-count {
+      vertical-align: super;
+      font-size: 75%;
+      color: #6E7173; }
     #sidebar .widget .comments-title {
       color: #6E7173;
       line-height: 2.7;
