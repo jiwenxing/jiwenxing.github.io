@@ -37,10 +37,8 @@
 <p>然后创建一个 HashMap，执行 map.put(a,c); map 中插入了一条数据，键是 a 值是 c，调用 map.get(a) 可以返回对象 c，但是调用 map.get(b) 却不能返回对象 c， 但是 a 和 b 两个对象是相等的，相等的对象却得不到相同的结果，就不符合逻辑了。因为 HashMap 是根据键对象的 HashCode 来进行快速查找的，所以你必须保证 a 和 b 这两个相同对象的 HashCode 也相同，因此你需要重写 hashCode() 方法。另外，如果你要用到 HashSet，在这个例子中 a 和 b 可以同时插入到 HashSet 中，然而这两个对象在逻辑上有时相等的，这不符合 HashSet 的定义。</p>
 <p>另外这也是hashcode方法的要求，在Object的hashcode方法注释中明确做了如下说明：</p>
 <blockquote>
-<p>If two objects are equal according to the {@code equals(Object)}</p>
-<pre><code>*     method, then calling the {@code hashCode} method on each of
-*     the two objects must produce the same integer result.
-</code></pre></blockquote>
+<p>If two objects are equal according to the equals(Object) method, then calling the hashCode() method on each of the two objects must produce the same integer result.</p>
+</blockquote>
 <h2 id="hashcode-是对象的内存地址吗"><a href="#hashcode-是对象的内存地址吗" class="headerlink" title="hashcode 是对象的内存地址吗"></a>hashcode 是对象的内存地址吗</h2><p>首先String就不是，因为它重写了hashcode方法。这个问题问的应该是object中的hashcode的native方法。因为不同JVM的实现不一样，可能有JVM这样实现，但大多时候并不是这样，只能说可能存储地址有一定关联。</p>
 <h2 id="String-StringBuffer，StringBuilder的区别？"><a href="#String-StringBuffer，StringBuilder的区别？" class="headerlink" title="String, StringBuffer，StringBuilder的区别？"></a>String, StringBuffer，StringBuilder的区别？</h2><ul>
 <li>String 是字符串常量，是不可变的，而 StringBuffer 及 StringBuilder 可变</li>
