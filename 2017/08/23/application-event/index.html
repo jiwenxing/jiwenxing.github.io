@@ -76,7 +76,7 @@
 <p>此时便可以使用观察者模式增加了一个 Listener 来解耦 UserService 和其他服务，即注册成功后，只需要通知相关的监听器，不需要关系它们如何处理，这样增删功能非常容易。</p>
 <p><img src="http://ochyazsr6.bkt.clouddn.com/fd397e908f5bb3aebe50bc8cac6f5440.jpg" alt=""></p>
 <h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ol>
-<li>Spring Events 只能监听同一个 JVM 中的事件</li>
+<li>Spring Events 只能监听同一个 JVM 中的事件，如果需要实现跨应用的事件发布和监听则需要引入消息中间件（RabbitMQ，JMQ等）</li>
 <li>异步事件需要关注线程资源，在大并发的情况下需要自定义线程池</li>
 <li>方法只要注解了<code>@Async</code>并且开启异步即可实现异步，异步是多线程中的知识点，而event是一种设计模式（观察者模式或发布订阅模式）</li>
 </ol>
