@@ -46,8 +46,8 @@
 <li>String、StringBuffer 是线程安全的，StringBuilder 线程不安全</li>
 </ul>
 <p>三者之间的关系看这张图：</p>
-<p><img src="http://
-pgdgu8c3d.bkt.clouddn.com/1294873a37967d1f431ce3a5db02fe75.jpg" alt=""></p>
+<p><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/1294873a37967d1f431ce3a5db02fe75.jpg" alt=""></p>
 <p>看源码会发现 StringBuffer 和 StringBuilder 继承了同样的接口和抽象类，其中的方法和实现也几乎都一样，唯一的区别就是在 StringBuffer 中很多方法都加了 <code>synchronized</code> 修饰符<br>从而达到线程安全的目的。</p>
 <h2 id="String是不可变的有什么好处？"><a href="#String是不可变的有什么好处？" class="headerlink" title="String是不可变的有什么好处？"></a>String是不可变的有什么好处？</h2><ol>
 <li>由于String是不可变类，所以在多线程中使用是安全的，我们不需要做任何其他同步操作。</li>

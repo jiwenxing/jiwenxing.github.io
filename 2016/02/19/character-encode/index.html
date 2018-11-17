@@ -48,10 +48,10 @@
 <p>web 的场景下如果没有指定编码格式，则一般默认的 charset 都是<code>ISO-8859-1</code>，因此尽量使用 ASCII 字符，一定要使用中文的场景时记住显式的设置 charset。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实乱码问题的本质就是Encoding和Decoding用的不是一个编码，要解决乱码问题，首先要搞清楚哪些地方会引起字符到字节的编码以及字节到字符的解码，最常见的地方就是读取会存储数据到磁盘，或者数据要经过网络传输。然后针对这些地方搞清楚操作这些数据的框架的或系统是如何控制编码的，正确设置编码格式，避免使用软件默认的或者是操作系统平台默认的编码格式。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.ibm.com/developerworks/cn/java/j-lo-chinesecoding/index.html" target="_blank" rel="external">深入分析 Java 中的中文编码问题</a></p>
-<p>[2] <a href="http://www.importnew.com/23963.html" target="_blank" rel="external">理解Java中字符流与字节流的区别
+<p>[2] <a href="//www.importnew.com/23963.html">理解Java中字符流与字节流的区别
 </a></p>
 <p>[3] <a href="https://my.oschina.net/goldenshaw/blog/323248" target="_blank" rel="external">字符集与编码（七）——BOM</a></p>
-<p>[4] <a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="external">字符编码笔记：ASCII，Unicode 和 UTF-8</a></p>
+<p>[4] <a href="//www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html">字符编码笔记：ASCII，Unicode 和 UTF-8</a></p>
 </div><script type="text/javascript" src="/js/share.js?v=0.0.1" async></script><a data-url="https://jverson.com/2016/02/19/character-encode/" data-id="cjm1vti7v002c22teretus91u" class="article-share-link">分享到</a><div class="tags"><a href="/tags/Java/">Java</a></div><div class="post-nav"><a href="/2016/02/03/serialize/" class="pre">深入理解Java序列化</a><a href="/2016/03/03/network/" class="next">网络分层结构之物理层&amp;数据链路层（一）</a></div><div id="disqus_thread"><script>var disqus_shortname = 'jverson';
 var disqus_identifier = '2016/02/19/character-encode/';
 var disqus_title = '关于字符编码和java中的乱码问题总结';

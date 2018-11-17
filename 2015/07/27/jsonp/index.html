@@ -5,14 +5,14 @@
 <p>Failed to load resource: net::ERR_CONNECTION_TIMED_OUT</p>
 </blockquote>
 <p>当然访问失败很正常，但按理说访问失败就应该进入<code>error</code>回调中，而页面却没有任何反应，也没有进入任何<code>callback</code>中。</p>
-<h2 id="DIGNOSE"><a href="#DIGNOSE" class="headerlink" title="DIGNOSE"></a>DIGNOSE</h2><p>先了解下JSONP是个什么东东，她的使用场景和实现原理是什么。<br>由于浏览器同源策略的限制，Ajax无法实现数据的跨域请求，而 HTML 的 <code>&lt;script&gt;</code> 元素是一个例外。利用 <code>&lt;script&gt;</code> 元素的这个开放策略，网页可以得到从其他来源动态产生的JSON 资料。其过程可以简单的描述为: 当需要通讯时，本站脚本创建一个<code>&lt;script&gt;</code>元素，地址指向第三方的API网址，形如： <code>&lt;script src=&quot;http://www.example.net/api?param1=1&amp;param2=2&quot;&gt;&lt;/script&gt;</code> ，并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。 第三方产生的响应为json数据的包装（故称之为jsonp，即json padding），形如： callback({“name”:”hax”,”gender”:”Male”}) 这样浏览器会调用callback函数，并传递解析后json对象作为参数，本站脚本可在callback函数里处理所传入的数据。简单讲就是jsonp通过一种取巧的非正式的方式实现了数据的跨域请求。</p>
+<h2 id="DIGNOSE"><a href="#DIGNOSE" class="headerlink" title="DIGNOSE"></a>DIGNOSE</h2><p>先了解下JSONP是个什么东东，她的使用场景和实现原理是什么。<br>由于浏览器同源策略的限制，Ajax无法实现数据的跨域请求，而 HTML 的 <code>&lt;script&gt;</code> 元素是一个例外。利用 <code>&lt;script&gt;</code> 元素的这个开放策略，网页可以得到从其他来源动态产生的JSON 资料。其过程可以简单的描述为: 当需要通讯时，本站脚本创建一个<code>&lt;script&gt;</code>元素，地址指向第三方的API网址，形如： <code>&lt;script src=&quot;//www.example.net/api?param1=1&amp;param2=2&quot;&gt;&lt;/script&gt;</code> ，并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。 第三方产生的响应为json数据的包装（故称之为jsonp，即json padding），形如： callback({“name”:”hax”,”gender”:”Male”}) 这样浏览器会调用callback函数，并传递解析后json对象作为参数，本站脚本可在callback函数里处理所传入的数据。简单讲就是jsonp通过一种取巧的非正式的方式实现了数据的跨域请求。</p>
 <p>那么jsonp和普通的json数据格式的Ajax请求有什么不同呢？</p>
 <p><strong><code>ajax</code>的核心是通过<code>XmlHttpRequest</code>获取非本页内容，而<code>jsonp</code>的核心则是动态添加<code>&lt;script&gt;</code>标签来调用服务器提供的<code>js</code>脚本。</strong></p>
-<p>而上面我们遇到的问题正是与这两种请求的实现方式不同有关，<a href="http://forum.jquery.com/topic/jquery-ajax-with-datatype-jsonp-will-not-use-error-callback-if-request-fails" target="_blank" rel="external">这个帖子</a>道出其中症结所在</p>
+<p>而上面我们遇到的问题正是与这两种请求的实现方式不同有关，<a href="//forum.jquery.com/topic/jquery-ajax-with-datatype-jsonp-will-not-use-error-callback-if-request-fails">这个帖子</a>道出其中症结所在</p>
 <blockquote>
 <p>$.ajax() can determine other error scenarios by inspecting the XHR<br>object, but jsonp doesn’t use XHR.</p>
 </blockquote>
-<h2 id="SOLUTION"><a href="#SOLUTION" class="headerlink" title="SOLUTION"></a>SOLUTION</h2><p>如果jsonp方式想在请求失败后触发并执行error callback要怎么实现呢？万能的Google搜到了<a href="http://designwithpc.com/post/11989720389/jsonp-error-handling-with-jqueryajax" target="_blank" rel="external">一个帖子</a>提到了两种可行的方案。</p>
+<h2 id="SOLUTION"><a href="#SOLUTION" class="headerlink" title="SOLUTION"></a>SOLUTION</h2><p>如果jsonp方式想在请求失败后触发并执行error callback要怎么实现呢？万能的Google搜到了<a href="//designwithpc.com/post/11989720389/jsonp-error-handling-with-jqueryajax">一个帖子</a>提到了两种可行的方案。</p>
 <ul>
 <li>添加<code>timeout</code>设置<blockquote>
 <p>Timeout after a reasonable amount of time to fire the error callback because it might have failed silently. You may not know what the actual error (or error status) was but at least you get to handle the error.</p>
@@ -27,10 +27,10 @@
 <p>将<code>&lt;script src=&quot;https://raw.github.com/jaubourg/jquery-jsonp/master/src/jquery.jsonp.js&quot;&gt;&lt;/script&gt;</code>插入到html头部即可。</p>
 <p>另外还需注意jsonp只支持get不支持post请求。</p>
 <h3 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h3><ol>
-<li><a href="http://www.kankanews.com/ICkengine/archives/96670.shtml" target="_blank" rel="external">http://www.kankanews.com/ICkengine/archives/96670.shtml</a></li>
-<li><a href="http://forum.jquery.com/topic/jquery-ajax-with-datatype-jsonp-will-not-use-error-callback-if-request-fails" target="_blank" rel="external">http://forum.jquery.com/topic/jquery-ajax-with-datatype-jsonp-will-not-use-error-callback-if-request-fails</a></li>
-<li><a href="http://designwithpc.com/post/11989720389/jsonp-error-handling-with-jqueryajax" target="_blank" rel="external">http://designwithpc.com/post/11989720389/jsonp-error-handling-with-jqueryajax</a></li>
-<li><a href="http://baike.baidu.com/link?url=eXfWWy4ai-a7PkrsYHsqCrRGzRJYoF4l7WJStF4HoTMMwDeMrFtcnOICK0BM1QfwAjluEvrwfV5M9ZDuoejM-_" target="_blank" rel="external">http://baike.baidu.com/link?url=eXfWWy4ai-a7PkrsYHsqCrRGzRJYoF4l7WJStF4HoTMMwDeMrFtcnOICK0BM1QfwAjluEvrwfV5M9ZDuoejM-_</a></li>
+<li><a href="//www.kankanews.com/ICkengine/archives/96670.shtml">//www.kankanews.com/ICkengine/archives/96670.shtml</a></li>
+<li><a href="//forum.jquery.com/topic/jquery-ajax-with-datatype-jsonp-will-not-use-error-callback-if-request-fails">//forum.jquery.com/topic/jquery-ajax-with-datatype-jsonp-will-not-use-error-callback-if-request-fails</a></li>
+<li><a href="//designwithpc.com/post/11989720389/jsonp-error-handling-with-jqueryajax">//designwithpc.com/post/11989720389/jsonp-error-handling-with-jqueryajax</a></li>
+<li><a href="//baike.baidu.com/link?url=eXfWWy4ai-a7PkrsYHsqCrRGzRJYoF4l7WJStF4HoTMMwDeMrFtcnOICK0BM1QfwAjluEvrwfV5M9ZDuoejM-_">//baike.baidu.com/link?url=eXfWWy4ai-a7PkrsYHsqCrRGzRJYoF4l7WJStF4HoTMMwDeMrFtcnOICK0BM1QfwAjluEvrwfV5M9ZDuoejM-_</a></li>
 </ol>
 </div><script type="text/javascript" src="/js/share.js?v=0.0.1" async></script><a data-url="https://jverson.com/2015/07/27/jsonp/" data-id="cjm1vti95003t22te3i5r3lcp" class="article-share-link">分享到</a><div class="tags"><a href="/tags/Java/">Java</a></div><div class="post-nav"><a href="/2015/07/15/learngit-0/" class="pre">Git学习笔记</a><a href="/2015/12/13/Java-String/" class="next">About Java String</a></div><div id="disqus_thread"><script>var disqus_shortname = 'jverson';
 var disqus_identifier = '2015/07/27/jsonp/';

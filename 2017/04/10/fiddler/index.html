@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta name="baidu-site-verification" content="WJEAqh4Drc" /><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="jverson's blog | java | web | Jverson"><title>使用 Fiddler 调试移动端 H5 | 墨言</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.1"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/3.0.3/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">使用 Fiddler 调试移动端 H5</h1><a id="logo" href="/.">墨言</a><p class="description">LIFE IS SIMPLE, LOVE SMILE AND CODE</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="http://album.jverson.com/"><i class="fa fa-picture-o"> 相册</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">使用 Fiddler 调试移动端 H5</h1><div class="post-meta">Apr 10, 2017<span> | </span><span class="category"><a href="/categories/Tools/">Tools</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><a data-disqus-identifier="2017/04/10/fiddler/" href="/2017/04/10/fiddler/#disqus_thread" class="disqus-comment-count"></a><div class="post-content"><p>调试移动应用的H5时，大部分情况都可以在PC上模拟，但有时会存在需要校验native环境信息及签名等复杂的情况，浏览器上模拟需要准备一些必备的参数并且不够接近真实环境，这时就希望APP端能够像pc一样可以配host，可以查看network详细信息，这个时候可以借助fiddler来实现了。<a id="more"></a></p>
 <h2 id="抓取http请求"><a href="#抓取http请求" class="headerlink" title="抓取http请求"></a>抓取http请求</h2><h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><ol>
-<li><p>pc上安装fiddler并打开远程机器捕获模式<br>如图所示，Tools &gt; Fiddler Options下确保 Allow remote clients to connect 被选中<br><img src="http://
-pgdgu8c3d.bkt.clouddn.com/201704101432_963.jpg" alt=""></p>
+<li><p>pc上安装fiddler并打开远程机器捕获模式<br>如图所示，Tools &gt; Fiddler Options下确保 Allow remote clients to connect 被选中<br><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/201704101432_963.jpg" alt=""></p>
 </li>
-<li><p>远程机器（即手机）连接至同一局域网并设置该pc为代理机<br><img src="http://
-pgdgu8c3d.bkt.clouddn.com/201704101327_739.jpg" alt=""><br>注意：ip为pc在局域网中的ip，fiddler默认监听的端口号为8888，可以在第一步修改</p>
+<li><p>远程机器（即手机）连接至同一局域网并设置该pc为代理机<br><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/201704101327_739.jpg" alt=""><br>注意：ip为pc在局域网中的ip，fiddler默认监听的端口号为8888，可以在第一步修改</p>
 </li>
 <li><p>pc配上需要的host即可在APP上进行测试<br>这时应该可以在fiddler中看到APP发出的请求，就类似于chrome调试工具中的network查看请求的详细信息</p>
 </li>
@@ -14,18 +14,18 @@ pgdgu8c3d.bkt.clouddn.com/201704101327_739.jpg" alt=""><br>注意：ip为pc在�
 </blockquote>
 <h2 id="抓取https请求"><a href="#抓取https请求" class="headerlink" title="抓取https请求"></a>抓取https请求</h2><p>以上操作完成只能正常的抓取http请求，对于https请求由于传输数据是加密的，fiddler解析报文。如果希望fiddler能够抓取https报文，客户端需要安装fiddler的证书，这样fiddler可以截获用户的https请求，然后伪装成用户请求服务器，得到响应后解密信息并使用自己的证书加密发送给客户端，然后客户端使用安装的fiddler的证书解密报文。</p>
 <h3 id="操作步骤-1"><a href="#操作步骤-1" class="headerlink" title="操作步骤"></a>操作步骤</h3><ol>
-<li><p>fiddler设置<br>tools-&gt;options-&gt;https，选中capture HTTPS connects &amp; decrypt https traffic &amp; ignore server certificate errors，这时会提示安装证书，点击yes安装即可<br><img src="http://
-pgdgu8c3d.bkt.clouddn.com/201705081657_866.png" alt=""></p>
+<li><p>fiddler设置<br>tools-&gt;options-&gt;https，选中capture HTTPS connects &amp; decrypt https traffic &amp; ignore server certificate errors，这时会提示安装证书，点击yes安装即可<br><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/201705081657_866.png" alt=""></p>
 </li>
-<li><p>手机安装fiddler证书<br>手机连接至pc分享的wifi，fiddler处于打开状态，手机内置浏览器输入：<a href="http://192.168.64.107:8888，其中ip为pc分享的wifi的ip，即前面设置的代理的ip，端口号默认就是8888，点击页面中的fiddlerRoot" target="_blank" rel="external">http://192.168.64.107:8888，其中ip为pc分享的wifi的ip，即前面设置的代理的ip，端口号默认就是8888，点击页面中的fiddlerRoot</a> certificate安装即可<br><img src="http://
-pgdgu8c3d.bkt.clouddn.com/201705081658_54.png" alt=""></p>
+<li><p>手机安装fiddler证书<br>手机连接至pc分享的wifi，fiddler处于打开状态，手机内置浏览器输入：//192.168.64.107:8888，其中ip为pc分享的wifi的ip，即前面设置的代理的ip，端口号默认就是8888，点击页面中的fiddlerRoot certificate安装即可<br><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/201705081658_54.png" alt=""></p>
 </li>
 </ol>
 <p><strong>注意：</strong> 经过测试安卓安装了证书以后没有问题，但是ios安装了证书https请求还是会被拦截，需要native做特殊的处理忽略证书相关警告。</p>
 <h2 id="原理解释"><a href="#原理解释" class="headerlink" title="原理解释"></a>原理解释</h2><p>Fiddler支持代理的功能，也就是说你所有的http请求都可以通过它来转发，在手机端设置Fiddler所在的pc为代理服务器并使用fiddler监听的端口号，使得手机应用的请求都通过Fiddler来转发，从而实现调试手机端页面的目的。当然也可以使用例如NProxy等其它代理工具达到同样的目的，但是无法像fiddler那样查看请求的详细信息。能够抓取https请求是因为当客户端安装了并信任了fiddler自己的证书以后，客户端和fiddler以及fiddler和服务器之间的通信都是没问题的，只是fiddler每次拿到服务器返回的数据后先使用服务器的证书解密再使用自己的证书加密然后再发送给客户端，这时由于客户端安装并信任了fiddler的证书，并可以正常的解析数据了。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="http://docs.telerik.com/fiddler/configure-fiddler/tasks/MonitorRemoteMachine" target="_blank" rel="external">Capture traffic from another machine</a></li>
-<li><a href="http://blog.csdn.net/sb___itfk/article/details/45250771" target="_blank" rel="external">用fiddler做代理服务器转发请求</a></li>
+<li><a href="//docs.telerik.com/fiddler/configure-fiddler/tasks/MonitorRemoteMachine">Capture traffic from another machine</a></li>
+<li><a href="//blog.csdn.net/sb___itfk/article/details/45250771">用fiddler做代理服务器转发请求</a></li>
 </ul>
 </div><script type="text/javascript" src="/js/share.js?v=0.0.1" async></script><a data-url="https://jverson.com/2017/04/10/fiddler/" data-id="cjm1vti8f003122tequcnqrfj" class="article-share-link">分享到</a><div class="tags"><a href="/tags/Frontend/">Frontend</a></div><div class="post-nav"><a href="/2017/03/26/factory-pattern/" class="pre">工厂设计模式实践</a><a href="/2017/04/28/alfred-qiniu-upload/" class="next">使用 Alfred 在 markdown 中愉快的贴图</a></div><div id="disqus_thread"><script>var disqus_shortname = 'jverson';
 var disqus_identifier = '2017/04/10/fiddler/';

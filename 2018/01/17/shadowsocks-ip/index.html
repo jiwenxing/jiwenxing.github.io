@@ -3,16 +3,16 @@
 <h2 id="排查处理"><a href="#排查处理" class="headerlink" title="排查处理"></a>排查处理</h2><p>后来经过排查发现 EC2 主机的 IP 被 Ban 了，也不知道谁这么坏（偷笑）！直接上 AWS 的 EC2 Dashboard 左侧网络与安全分组下有个弹性IP的标签，点击左上角分配新地址便会得到一个新的 IP，然后点击操作中关联地址即可将新的 IP 绑定到 EC2 实例上。最后在 DSNPod 中改了一下 DNS 的 IP 设置，相册马上就可以访问了，改了 ss 的 IP 之后也能正常使用了。可见现在 Ban Rule 是多么简单粗暴，连端口都懒得理了，直接操作 IP！也不知道换了 IP 能坚持几天，且用且珍惜吧。</p>
 <h2 id="关于-ShadowSocks"><a href="#关于-ShadowSocks" class="headerlink" title="关于 ShadowSocks"></a>关于 ShadowSocks</h2><p>这个事情感觉应该就是 ss 的锅了，不过我就是用来上上谷歌、看看油管，也没干什么，但是没办法，非礼勿视，现在是不但要求勿视，可视的途径也不能有。话说之前大概了解过 ss 代理方式，其由于采用灵活的加密方式报文很难被探测和特征分析，从而稳定性要比其它的方式好很多。但是刚刚 Google 了一下（没错就是用上文提到的ss），看到网上从去年十月开始此类问题就开始频繁的出现了。具体可以看看 shadowsocks <a href="https://github.com/shadowsocks/shadowsocks/issues/988" target="_blank" rel="external">issues</a> 上的吐槽。</p>
 <p>这时忍不住想对 ss 的原理深入了解一下，想看看到底是怎么道高一尺魔高一丈的（道魔难分），先参考网上的一篇文章[2]对 ss 的原理有个大概的认识，感觉写的很不错，将其中的几张图摘抄于此。</p>
-<h3 id="long-long-ago…"><a href="#long-long-ago…" class="headerlink" title="long long ago…"></a>long long ago…</h3><p><img src="http://
-pgdgu8c3d.bkt.clouddn.com/6754b95cbb27f92979a4dbf1471d0101.jpg" alt=""></p>
-<h3 id="when-evil-comes-hahahaha…"><a href="#when-evil-comes-hahahaha…" class="headerlink" title="when evil comes(hahahaha…)"></a>when evil comes(hahahaha…)</h3><p><img src="http://
-pgdgu8c3d.bkt.clouddn.com/a250a9851c17e397731ab902e18ee074.jpg" alt=""></p>
-<h3 id="ssh-tunnel"><a href="#ssh-tunnel" class="headerlink" title="ssh tunnel"></a>ssh tunnel</h3><p><img src="http://
-pgdgu8c3d.bkt.clouddn.com/ca96eb0c6f38d7afe6985ad32f415885.jpg" alt=""></p>
-<h3 id="shadowsocks"><a href="#shadowsocks" class="headerlink" title="shadowsocks"></a>shadowsocks</h3><p><img src="http://
-pgdgu8c3d.bkt.clouddn.com/66e428d153c996c29c38aad4aa3f4084.jpg" alt=""></p>
+<h3 id="long-long-ago…"><a href="#long-long-ago…" class="headerlink" title="long long ago…"></a>long long ago…</h3><p><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/6754b95cbb27f92979a4dbf1471d0101.jpg" alt=""></p>
+<h3 id="when-evil-comes-hahahaha…"><a href="#when-evil-comes-hahahaha…" class="headerlink" title="when evil comes(hahahaha…)"></a>when evil comes(hahahaha…)</h3><p><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/a250a9851c17e397731ab902e18ee074.jpg" alt=""></p>
+<h3 id="ssh-tunnel"><a href="#ssh-tunnel" class="headerlink" title="ssh tunnel"></a>ssh tunnel</h3><p><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/ca96eb0c6f38d7afe6985ad32f415885.jpg" alt=""></p>
+<h3 id="shadowsocks"><a href="#shadowsocks" class="headerlink" title="shadowsocks"></a>shadowsocks</h3><p><img src="//
+jverson.oss-cn-beijing.aliyuncs.com/66e428d153c996c29c38aad4aa3f4084.jpg" alt=""></p>
 <p>图画的很清晰，可以看到 ShadowSocks 通过客户端以指定的密码、加密方式和端口连接服务器，成功连接到服务器后，客户端在用户的电脑上构建一个本地socks5代理。使用时将流量分到本地socks5代理，客户端将自动加密并转发流量到服务器，服务器以同样的加密方式将流量回传给客户端，以此实现代理上网。</p>
-<p>ShadowSocks 中间没有任何握手的环节，直接是TCP数据流，没有 SSH 建立连接的过程，同时也不需要保持连接。因此相对而言 Shadowsocks 的代理方式更为隐蔽和安全。但是随着 ShadowSocks 的使用越来越多，其默认使用的8388端口首先就被盯上了，很容易就被 ban 了。 你可能会说换个端口号就好了，然而随着类似于<a href="http://ieeexplore.ieee.org/document/8048116/?reload=true#full-text-section" target="_blank" rel="external">此类论文</a>（当然这篇文章已被吐槽很水）的研究越来越多，也说明了相关从业者在不遗余力的来封堵这条路，有人说 GFW 其实很任性，宁可错杀也不放过，这不感觉我就被错杀了。</p>
+<p>ShadowSocks 中间没有任何握手的环节，直接是TCP数据流，没有 SSH 建立连接的过程，同时也不需要保持连接。因此相对而言 Shadowsocks 的代理方式更为隐蔽和安全。但是随着 ShadowSocks 的使用越来越多，其默认使用的8388端口首先就被盯上了，很容易就被 ban 了。 你可能会说换个端口号就好了，然而随着类似于<a href="//ieeexplore.ieee.org/document/8048116/?reload=true#full-text-section">此类论文</a>（当然这篇文章已被吐槽很水）的研究越来越多，也说明了相关从业者在不遗余力的来封堵这条路，有人说 GFW 其实很任性，宁可错杀也不放过，这不感觉我就被错杀了。</p>
 <p>当然我肯定想不出也开发不出来更好的科学上网的协议或者工具出来，我能做的就是保持学习，学习前人的智慧（例如<a href="https://github.com/clowwindy" target="_blank" rel="external">clowwindy</a>），并感激他们为此付出的努力，同时也希望所有的事情都能向一个美好的方向发展~</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://github.com/shadowsocks" target="_blank" rel="external">https://github.com/shadowsocks</a><br>[2] <a href="https://vc2tea.com/whats-shadowsocks/" target="_blank" rel="external">写给非专业人士看的 Shadowsocks 简介</a></p>
 </div><script type="text/javascript" src="/js/share.js?v=0.0.1" async></script><a data-url="https://jverson.com/2018/01/17/shadowsocks-ip/" data-id="cjm1vti9k004r22teeam7jwn8" class="article-share-link">分享到</a><div class="tags"></div><div class="post-nav"><a href="/2018/01/01/2018/" class="pre">砥砺前行，不忘初心</a><a href="/2018/03/08/https-certificate/" class="next">记录一次 Https 握手故障的排查</a></div><div id="disqus_thread"><script>var disqus_shortname = 'jverson';
